@@ -40,6 +40,7 @@ export function Sidebar() {
   const [mounted, setMounted] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set(['Starsze']))
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
   
   useEffect(() => {
     setMounted(true)
@@ -196,7 +197,19 @@ export function Sidebar() {
 
         {/* Conversations List */}
         <div className="flex-1 overflow-y-auto p-4">
-          {filteredConversations.length === 0 ? (
+          {showFavoritesOnly ? (
+            <div className="text-center py-8">
+              <Heart className="w-12 h-12 text-pink-500 mx-auto mb-4 opacity-50" />
+              <p className="text-sm text-gray-400 mb-2">Brak ulubionych rozmów</p>
+              <p className="text-xs text-gray-500">Funkcja ulubionych rozmów będzie dostępna wkrótce</p>
+              <button
+                onClick={() => setShowFavoritesOnly(false)}
+                className="mt-4 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white text-sm rounded-2xl transition-colors"
+              >
+                Pokaż wszystkie
+              </button>
+            </div>
+          ) : filteredConversations.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-sm text-gray-400">
                 {searchQuery ? 'Nie znaleziono rozmów' : 'Brak rozmów. Rozpocznij nową konwersację!'}
@@ -283,11 +296,18 @@ export function Sidebar() {
               <p className="text-xs font-bold text-white">{stats.conversations}</p>
               <p className="text-xs text-gray-500">Rozmowy</p>
             </div>
-            <div className="p-2 rounded-2xl bg-gray-800">
-              <Heart className="w-4 h-4 text-pink-500 mx-auto mb-1" />
-              <p className="text-xs font-bold text-white">{stats.favorites}</p>
-              <p className="text-xs text-gray-500">Ulubione</p>
-            </div>
+            <button
+              onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+              className={`p-2 rounded-2xl transition-all ${
+                showFavoritesOnly 
+                  ? 'bg-pink-500 ring-2 ring-pink-400' 
+                  : 'bg-gray-800 hover:bg-gray-700'
+              }`}
+            >
+              <Heart className={`w-4 h-4 mx-auto mb-1 ${showFavoritesOnly ? 'text-white' : 'text-pink-500'}`} />
+              <p className={`text-xs font-bold ${showFavoritesOnly ? 'text-white' : 'text-white'}`} suppressHydrationWarning>{stats.favorites}</p>
+              <p className={`text-xs ${showFavoritesOnly ? 'text-pink-100' : 'text-gray-500'}`}>Ulubione</p>
+            </button>
             <div className="p-2 rounded-2xl bg-gray-800">
               <TrendingUp className="w-4 h-4 text-purple-500 mx-auto mb-1" />
               <p className="text-xs font-bold text-white">{stats.messages}</p>

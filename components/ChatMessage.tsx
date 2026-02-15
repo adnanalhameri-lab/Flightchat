@@ -8,7 +8,6 @@ import { Message } from '@/lib/types'
 import { motionVariants } from '@/lib/design-tokens'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { ComparisonView } from './ComparisonView'
 import { CopyButton } from './CopyButton'
 import { User, Bot } from 'lucide-react'
 
@@ -189,18 +188,6 @@ export function ChatMessage({ message }: ChatMessageProps) {
             </div>
           )}
         </motion.div>
-
-        {/* Destination Cards */}
-        {message.destinations && message.destinations.length > 0 && (
-          <motion.div 
-            className="w-full mt-4"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.3 }}
-          >
-            <ComparisonView destinations={message.destinations} />
-          </motion.div>
-        )}
 
         {/* Timestamp - client only to avoid hydration mismatch */}
         <motion.p 

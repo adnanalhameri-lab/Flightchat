@@ -8,6 +8,7 @@ import { ChatMessage } from './ChatMessage'
 import { ChatInput } from './ChatInput'
 import { EmptyState } from './EmptyState'
 import { TypingIndicator } from './TypingIndicator'
+import { ComparisonView } from './ComparisonView'
 import { Message, ChatApiResponse } from '@/lib/types'
 import { motion } from 'framer-motion'
 import { Bot } from 'lucide-react'
@@ -117,6 +118,13 @@ export function ChatInterface() {
 
   const hasMessages = conversation.messages.length > 0
   const showSidebar = isLoading || (hasMessages && conversation.messages.some(m => m.destinations && m.destinations.length > 0))
+  
+  // Collect all destinations from messages for right panel
+  const allDestinations = hasMessages 
+    ? conversation.messages
+        .filter(m => m.destinations && m.destinations.length > 0)
+        .flatMap(m => m.destinations || [])
+    : []
 
   return (
     <div className="flex h-screen bg-white">
@@ -158,8 +166,8 @@ export function ChatInterface() {
           </div>
         </div>
 
-        {/* Input area */}
-        <ChatInput onSend={handleSendMessage} disabled={isLoading} />
+        {/* Input area - hide when showing EmptyState (it has its own input) */}
+        {hasMessages && <ChatInput onSend={handleSendMessage} disabled={isLoading} />}
       </div>
 
       {/* Right sidebar - Search progress & results */}
@@ -213,31 +221,17 @@ export function ChatInterface() {
               </div>
             )}
 
-            {/* Results summary */}
-            {!isLoading && hasMessages && (
+            {/* Destination Cards */}
+            {!isLoading && allDestinations.length > 0 && (
               <motion.div
-                className="space-y-3"
+                className="space-y-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
-                <div className="p-4 bg-white rounded-2xl shadow-lg border border-purple-200">
-                  <h3 className="font-bold text-purple-900 mb-2">Znalezione wyniki</h3>
-                  <p className="text-sm text-purple-700">
-                    Przeanalizowano loty, pogodę i atrakcje dla wybranych destynacji.
-                  </p>
-                </div>
-                
-                {/* Destination count */}
-                {conversation.messages.filter(m => m.destinations && m.destinations.length > 0).map((msg, idx) => (
-                  <div key={idx} className="p-4 bg-gradient-to-br from-orange-50 to-pink-50 rounded-2xl shadow-lg border border-orange-200">
-                    <p className="text-sm font-medium text-orange-900">
-                      📍 {msg.destinations?.length || 0} {msg.destinations?.length === 1 ? 'destynacja' : 'destynacje'}
-                    </p>
-                    <p className="text-xs text-orange-700 mt-1">
-                      Sprawdź szczegóły poniżej w czacie
-                    </p>
-                  </div>
-                ))}
+                <h3 className="text-xl font-bold text-purple-900 mb-4">
+                  Znalezione destynacje ({allDestinations.length})
+                </h3>
+                <ComparisonView destinations={allDestinations} />
               </motion.div>
             )}
           </div>
