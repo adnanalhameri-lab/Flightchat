@@ -12,10 +12,10 @@ export default function SignUpPage() {
           <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-2xl mb-4">
             <Plane className="w-8 h-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold text-text mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Dołącz do FlightChat
           </h1>
-          <p className="text-text-secondary">
+          <p className="text-gray-600">
             Zacznij planować wymarzone podróże z AI
           </p>
         </div>
@@ -26,10 +26,10 @@ export default function SignUpPage() {
             appearance={{
               elements: {
                 rootBox: 'w-full',
-                card: 'shadow-xl border border-border bg-surface',
+                card: 'shadow-xl border border-gray-200 bg-white',
                 headerTitle: 'hidden',
                 headerSubtitle: 'hidden',
-                socialButtonsBlockButton: 'bg-surface border-border hover:bg-background',
+                socialButtonsBlockButton: 'bg-white border-gray-200 hover:bg-gray-50',
                 formButtonPrimary: 'bg-primary hover:bg-primary-hover',
                 footerActionLink: 'text-primary hover:text-primary-hover',
               },

@@ -5,6 +5,7 @@
 import { DestinationOption } from '@/lib/types'
 import { DestinationCard } from './DestinationCard'
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 
 interface ComparisonViewProps {
   destinations: DestinationOption[]
@@ -24,30 +25,68 @@ export function ComparisonView({ destinations }: ComparisonViewProps) {
     return null
   }
 
+  // Stagger animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring' as const,
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+  }
+
   // Mobile: Sequential cards (vertical stack)
   if (isMobile) {
     return (
-      <div className="space-y-4 mt-4">
+      <motion.div
+        className="space-y-4 mt-4"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {destinations.map((dest, idx) => (
-          <DestinationCard key={idx} destination={dest} rank={idx + 1} />
+          <motion.div key={idx} variants={itemVariants}>
+            <DestinationCard destination={dest} rank={idx + 1} />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     )
   }
 
   // Desktop: Grid layout
   const gridCols =
     destinations.length === 1
-      ? 'grid-cols-1 max-w-2xl'
+      ? 'grid-cols-1 max-w-3xl mx-auto'
       : destinations.length === 2
-      ? 'grid-cols-2'
-      : 'grid-cols-3'
+      ? 'grid-cols-2 max-w-5xl mx-auto'
+      : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
 
   return (
-    <div className={`grid ${gridCols} gap-4 mt-4`}>
+    <motion.div
+      className={`grid ${gridCols} gap-6 mt-6`}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       {destinations.map((dest, idx) => (
-        <DestinationCard key={idx} destination={dest} rank={idx + 1} />
+        <motion.div key={idx} variants={itemVariants}>
+          <DestinationCard destination={dest} rank={idx + 1} />
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   )
 }

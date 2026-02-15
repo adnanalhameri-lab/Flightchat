@@ -7,8 +7,10 @@ import { useChatStore } from '@/store/chat-store'
 import { ChatMessage } from './ChatMessage'
 import { ChatInput } from './ChatInput'
 import { EmptyState } from './EmptyState'
-import { LoadingIndicator } from './LoadingIndicator'
+import { TypingIndicator } from './TypingIndicator'
 import { Message, ChatApiResponse } from '@/lib/types'
+import { motion } from 'framer-motion'
+import { Bot } from 'lucide-react'
 
 export function ChatInterface() {
   const { getCurrentConversation, addMessage, updateConversationTitle, hasHydrated } = useChatStore()
@@ -32,9 +34,9 @@ export function ChatInterface() {
   // Show loading state during SSR and initial hydration
   if (!mounted || !hasHydrated) {
     return (
-      <div className="flex flex-col h-screen bg-background">
+      <div className="flex flex-col h-screen bg-transparent">
         <div className="flex-1 flex items-center justify-center">
-          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
         </div>
         <ChatInput onSend={() => {}} disabled={true} />
       </div>
@@ -107,7 +109,7 @@ export function ChatInterface() {
 
   if (!conversation) {
     return (
-      <div className="flex flex-col h-screen bg-background">
+      <div className="flex flex-col h-screen bg-transparent">
         <EmptyState />
       </div>
     )
@@ -116,7 +118,7 @@ export function ChatInterface() {
   const hasMessages = conversation.messages.length > 0
 
   return (
-    <div className="flex flex-col h-screen bg-background">
+    <div className="flex flex-col h-screen bg-transparent">
       {/* Messages area */}
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-4xl mx-auto px-4 py-8">
@@ -129,16 +131,21 @@ export function ChatInterface() {
                 <ChatMessage key={message.id} message={message} />
               ))}
 
-              {/* Loading indicator */}
+              {/* Typing indicator */}
               {isLoading && (
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 border border-primary/20">
-                    <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                <motion.div 
+                  className="flex items-start gap-4"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-blue-400 to-blue-600 shadow-md">
+                    <Bot className="w-5 h-5 text-white" />
                   </div>
-                  <div className="flex-1 pt-2">
-                    <LoadingIndicator />
+                  <div className="glass-strong px-6 py-4 rounded-3xl rounded-bl-md shadow-lg border border-white/20 dark:border-blue-800/30">
+                    <TypingIndicator />
                   </div>
-                </div>
+                </motion.div>
               )}
 
               {/* Scroll anchor */}

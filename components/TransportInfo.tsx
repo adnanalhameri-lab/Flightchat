@@ -15,21 +15,21 @@ export function TransportInfo({ transport }: TransportInfoProps) {
   }
 
   return (
-    <div className="mt-3 p-3 bg-background/50 rounded-lg border border-border">
+    <div className="mt-3 p-3 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
       <div className="flex items-center gap-2 mb-3">
-        <Bus className="w-4 h-4 text-accent" />
-        <span className="font-medium text-sm text-text">Transport z lotniska</span>
+        <Bus className="w-4 h-4 text-orange-400" />
+        <span className="font-medium text-sm text-white">Transport z lotniska</span>
       </div>
 
       <div className="space-y-2">
         {transport.options.slice(0, 3).map((option, index) => (
           <div
             key={index}
-            className="flex items-start gap-2 text-sm p-2 bg-surface rounded border border-border/50"
+            className="flex items-start gap-2 text-sm p-2 bg-white/10 backdrop-blur-sm rounded border border-white/20"
           >
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
-                <span className="font-medium text-text">{option.type}</span>
+                <span className="font-medium text-white">{option.type}</span>
                 {option.recommendation && (
                   <span className="inline-flex items-center gap-1 text-xs text-success">
                     <Star className="w-3 h-3 fill-current" />
@@ -38,7 +38,7 @@ export function TransportInfo({ transport }: TransportInfoProps) {
                 )}
               </div>
 
-              <div className="flex items-center gap-3 text-xs text-text-secondary">
+              <div className="flex items-center gap-3 text-xs text-white/70">
                 <span className="flex items-center gap-1">
                   <DollarSign className="w-3 h-3" />
                   {option.price}
@@ -51,7 +51,7 @@ export function TransportInfo({ transport }: TransportInfoProps) {
               </div>
 
               {option.recommendation && (
-                <p className="text-xs text-text-secondary mt-1 italic">
+                <p className="text-xs text-white/70 mt-1 italic">
                   {option.recommendation}
                 </p>
               )}
