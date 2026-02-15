@@ -119,7 +119,7 @@ export function DestinationCard({ destination, rank }: DestinationCardProps) {
               ease: 'easeInOut',
             }}
           >
-            <div className="bg-gradient-sunset rounded-2xl px-4 py-3 shadow-glow text-right backdrop-blur-sm border border-white/20">
+            <div className="bg-gradient-to-br from-orange-500 to-pink-500 rounded-2xl px-4 py-3 shadow-lg text-right backdrop-blur-sm border border-white/20">
               <p className="text-2xl font-bold text-white">
                 {formatCurrency(flight.price, flight.currency)}
               </p>
@@ -271,7 +271,7 @@ export function DestinationCard({ destination, rank }: DestinationCardProps) {
 
           {/* View Details Button */}
           <motion.button
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-gradient-ocean hover:shadow-glow text-white font-semibold transition-all"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-gradient-to-br from-orange-500 to-pink-500 hover:shadow-lg text-white font-semibold transition-all shadow-lg"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >

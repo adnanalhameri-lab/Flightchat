@@ -32,12 +32,12 @@
   --color-sunset-50: #FFF7ED;
   
   /* ===== Semantic Colors ===== */
-  --color-primary: var(--color-ocean-500);
-  --color-primary-hover: var(--color-ocean-600);
-  --color-primary-light: var(--color-ocean-400);
-  --color-accent: var(--color-sunset-500);
-  --color-accent-hover: var(--color-sunset-600);
-  --color-accent-light: var(--color-sunset-400);
+  --color-primary: #f97316; /* orange-500 */
+  --color-primary-hover: #ea580c; /* orange-600 */
+  --color-primary-light: #fb923c; /* orange-400 */
+  --color-accent: #a855f7; /* purple-500 */
+  --color-accent-hover: #9333ea; /* purple-600 */
+  --color-accent-light: #c084fc; /* purple-400 */
   
   /* ===== Neutrals (Warm Tint) ===== */
   --color-background: #FAFAF9;
