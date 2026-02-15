@@ -18,23 +18,23 @@ export function TypingIndicator() {
   }
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1.5">
       <motion.div
-        className="w-2 h-2 rounded-full bg-blue-400"
+        className="w-2 h-2 rounded-full bg-gray-400"
         variants={dotVariants}
         initial="initial"
         animate="animate"
         transition={{ ...dotTransition, delay: 0 }}
       />
       <motion.div
-        className="w-2 h-2 rounded-full bg-blue-400"
+        className="w-2 h-2 rounded-full bg-gray-400"
         variants={dotVariants}
         initial="initial"
         animate="animate"
         transition={{ ...dotTransition, delay: 0.15 }}
       />
       <motion.div
-        className="w-2 h-2 rounded-full bg-blue-400"
+        className="w-2 h-2 rounded-full bg-gray-400"
         variants={dotVariants}
         initial="initial"
         animate="animate"

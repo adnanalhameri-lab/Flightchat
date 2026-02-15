@@ -33,11 +33,11 @@ export function ChatMessage({ message }: ChatMessageProps) {
       {/* Avatar - left for assistant */}
       {!isUser && (
         <motion.div 
-          className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-300 shadow-md"
-          whileHover={{ scale: 1.1, rotate: 5 }}
+          className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-100 border border-gray-200"
+          whileHover={{ scale: 1.05 }}
           transition={{ type: 'spring', stiffness: 400, damping: 20 }}
         >
-          <Bot className="w-5 h-5 text-gray-700" />
+          <Bot className="w-5 h-5 text-gray-600" />
         </motion.div>
       )}
 
@@ -47,10 +47,9 @@ export function ChatMessage({ message }: ChatMessageProps) {
         <motion.div
           className={`relative group ${
             isUser
-              ? 'bg-orange-500 text-white rounded-2xl shadow-lg hover:shadow-xl'
-              : 'bg-gray-100 text-gray-900 rounded-2xl shadow-lg hover:shadow-xl'
-          } px-6 py-4 transition-shadow duration-300`}
-          whileHover={{ y: -2 }}
+              ? 'bg-orange-500 text-white rounded-2xl shadow-sm hover:shadow-md'
+              : 'bg-white border border-gray-100 text-gray-900 rounded-2xl shadow-sm hover:shadow-md'
+          } px-6 py-4 transition-all duration-200`}
         >
           {/* Copy Button for assistant messages */}
           {!isUser && (
@@ -207,8 +206,8 @@ export function ChatMessage({ message }: ChatMessageProps) {
       {/* Avatar - right for user */}
       {isUser && (
         <motion.div 
-          className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-orange-500 shadow-md"
-          whileHover={{ scale: 1.1, rotate: -5 }}
+          className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-orange-500"
+          whileHover={{ scale: 1.05 }}
           transition={{ type: 'spring', stiffness: 400, damping: 20 }}
         >
           <User className="w-5 h-5 text-white" />

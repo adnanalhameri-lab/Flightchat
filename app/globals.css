@@ -182,10 +182,11 @@ body {
 }
 
 body {
-  background: #FAFAF9; /* Force light background */
-  color: #18181B; /* Force dark text */
-  font-family: var(--font-sans);
+  background: #F9FAFB; /* gray-50 - Force light background */
+  color: #111827; /* gray-900 - Force dark text */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.6;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 }
 
 /* ===== Smooth transitions ===== */

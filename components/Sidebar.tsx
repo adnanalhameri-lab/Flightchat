@@ -41,6 +41,7 @@ export function Sidebar() {
   const [searchQuery, setSearchQuery] = useState('')
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set(['Starsze']))
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
+  const [activeView, setActiveView] = useState<'messages' | 'conversations'>('conversations')
   
   useEffect(() => {
     setMounted(true)
@@ -144,27 +145,48 @@ export function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:static inset-y-0 left-0 z-40 w-80 bg-gray-900 border-r border-gray-800 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'} flex flex-col`}
+        className={`fixed md:static inset-y-0 left-0 z-40 w-80 bg-white border-r border-gray-100 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'} flex flex-col`}
       >
         {/* Header */}
-        <div className="p-4 border-b border-gray-800">
-          <div className="flex items-center gap-3 mb-4">
-            <motion.div 
-              className="p-2 bg-gradient-to-br from-orange-500 to-pink-500 rounded-2xl shadow-lg"
-              whileHover={{ scale: 1.05, rotate: 5 }}
-            >
-              <Plane className="w-6 h-6 text-white" />
-            </motion.div>
-            <div>
-              <h1 className="text-xl font-bold text-white">FlightChat</h1>
-              <p className="text-xs text-gray-400">AI Travel Assistant</p>
+        <div className="p-6 border-b border-gray-100">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-orange-500 rounded-xl">
+              <Plane className="w-5 h-5 text-white" />
             </div>
+            <div>
+              <h1 className="text-lg font-bold text-gray-900">FlightChat</h1>
+              <p className="text-xs text-gray-500">AI Travel Assistant</p>
+            </div>
+          </div>
+
+          {/* Navigation Tabs */}
+          <div className="flex gap-2 mb-4">
+            <button
+              onClick={() => setActiveView('messages')}
+              className={`flex-1 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                activeView === 'messages'
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              Wiadomości
+            </button>
+            <button
+              onClick={() => setActiveView('conversations')}
+              className={`flex-1 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                activeView === 'conversations'
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              Rozmowy
+            </button>
           </div>
 
           {/* New Chat Button */}
           <motion.button
             onClick={handleNewChat}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-br from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white rounded-2xl transition-all font-semibold shadow-lg"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl transition-all duration-200 font-semibold cursor-pointer"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -174,20 +196,20 @@ export function Sidebar() {
         </div>
 
         {/* Search Bar */}
-        <div className="p-4 border-b border-gray-800">
+        <div className="px-6 py-4 border-b border-gray-100">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
               placeholder="Szukaj rozmów..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-2xl text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -196,22 +218,22 @@ export function Sidebar() {
         </div>
 
         {/* Conversations List */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto px-4 py-2">
           {showFavoritesOnly ? (
-            <div className="text-center py-8">
-              <Heart className="w-12 h-12 text-pink-500 mx-auto mb-4 opacity-50" />
-              <p className="text-sm text-gray-400 mb-2">Brak ulubionych rozmów</p>
-              <p className="text-xs text-gray-500">Funkcja ulubionych rozmów będzie dostępna wkrótce</p>
+            <div className="text-center py-12">
+              <Heart className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+              <p className="text-sm text-gray-600 mb-2">Brak ulubionych rozmów</p>
+              <p className="text-xs text-gray-400 mb-4">Funkcja ulubionych rozmów będzie dostępna wkrótce</p>
               <button
                 onClick={() => setShowFavoritesOnly(false)}
-                className="mt-4 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white text-sm rounded-2xl transition-colors"
+                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm rounded-xl transition-all cursor-pointer"
               >
                 Pokaż wszystkie
               </button>
             </div>
           ) : filteredConversations.length === 0 ? (
-            <div className="text-center py-8">
-              <p className="text-sm text-gray-400">
+            <div className="text-center py-12">
+              <p className="text-sm text-gray-500">
                 {searchQuery ? 'Nie znaleziono rozmów' : 'Brak rozmów. Rozpocznij nową konwersację!'}
               </p>
             </div>
@@ -227,7 +249,7 @@ export function Sidebar() {
                   <div key={group}>
                     <button
                       onClick={() => toggleGroup(group)}
-                      className="w-full flex items-center justify-between text-xs font-semibold text-gray-500 uppercase mb-2 px-2 py-1 hover:bg-gray-800 rounded-2xl transition-colors"
+                      className="w-full flex items-center justify-between text-xs font-semibold text-gray-400 uppercase mb-2 px-2 py-1 hover:bg-gray-50 rounded-lg transition-all cursor-pointer"
                     >
                       <span>{group} ({groupConvs.length})</span>
                       <ChevronDown 
@@ -248,20 +270,22 @@ export function Sidebar() {
                             <motion.div
                               key={conv.id}
                               onClick={() => handleSelectConversation(conv.id)}
-                              className={`group relative flex items-center gap-2 p-3 rounded-2xl cursor-pointer transition-all ${conv.id === currentConversationId ? 'bg-gray-800 border border-orange-500' : 'hover:bg-gray-800 border border-transparent'}`}
-                              whileHover={{ x: 4 }}
+                              className={`group relative flex items-center gap-2 p-3 rounded-xl cursor-pointer transition-all duration-200 ${conv.id === currentConversationId ? 'bg-orange-50 border border-orange-200' : 'hover:bg-gray-50 border border-transparent'}`}
+                              whileHover={{ x: 2 }}
                               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                             >
                               <ChevronRight
                                 className={`w-4 h-4 flex-shrink-0 transition-transform ${
-                                  conv.id === currentConversationId ? 'text-orange-500' : 'text-gray-500'
+                                  conv.id === currentConversationId ? 'text-orange-500' : 'text-gray-400'
                                 }`}
                               />
                               <div className="flex-1 min-w-0">
-                                <p className="text-sm font-medium text-white truncate">
+                                <p className={`text-sm font-medium truncate ${
+                                  conv.id === currentConversationId ? 'text-orange-900' : 'text-gray-900'
+                                }`}>
                                   {conv.title}
                                 </p>
-                                <p className="text-xs text-gray-400" suppressHydrationWarning>
+                                <p className="text-xs text-gray-500" suppressHydrationWarning>
                                   {conv.messages.length} wiadomości •{' '}
                                   {mounted ? formatDistanceToNow(new Date(conv.updatedAt), {
                                     addSuffix: true,
@@ -271,10 +295,10 @@ export function Sidebar() {
                               </div>
                               <button
                                 onClick={(e) => handleDeleteConversation(conv.id, e)}
-                                className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-500/20 rounded-2xl transition-all"
+                                className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
                                 title="Usuń rozmowę"
                               >
-                                <Trash2 className="w-4 h-4 text-red-400" />
+                                <Trash2 className="w-4 h-4 text-red-500" />
                               </button>
                             </motion.div>
                           ))}
@@ -288,52 +312,24 @@ export function Sidebar() {
           )}
         </div>
 
-        {/* Stats Section */}
-        <div className="px-4 py-3 border-t border-gray-800">
-          <div className="grid grid-cols-3 gap-2 text-center">
-            <div className="p-2 rounded-2xl bg-gray-800">
-              <MessageSquare className="w-4 h-4 text-orange-500 mx-auto mb-1" />
-              <p className="text-xs font-bold text-white">{stats.conversations}</p>
-              <p className="text-xs text-gray-500">Rozmowy</p>
-            </div>
-            <button
-              onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-              className={`p-2 rounded-2xl transition-all ${
-                showFavoritesOnly 
-                  ? 'bg-pink-500 ring-2 ring-pink-400' 
-                  : 'bg-gray-800 hover:bg-gray-700'
-              }`}
-            >
-              <Heart className={`w-4 h-4 mx-auto mb-1 ${showFavoritesOnly ? 'text-white' : 'text-pink-500'}`} />
-              <p className={`text-xs font-bold ${showFavoritesOnly ? 'text-white' : 'text-white'}`} suppressHydrationWarning>{stats.favorites}</p>
-              <p className={`text-xs ${showFavoritesOnly ? 'text-pink-100' : 'text-gray-500'}`}>Ulubione</p>
-            </button>
-            <div className="p-2 rounded-2xl bg-gray-800">
-              <TrendingUp className="w-4 h-4 text-purple-500 mx-auto mb-1" />
-              <p className="text-xs font-bold text-white">{stats.messages}</p>
-              <p className="text-xs text-gray-500">Wiadomości</p>
-            </div>
-          </div>
-        </div>
-
         {/* Footer - User */}
-        <div className="p-4 border-t border-gray-800">
+        <div className="p-4 border-t border-gray-100 mt-auto">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 flex-1 min-w-0">
               <UserButton afterSignOutUrl="/sign-in" />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-white truncate">
+                <p className="text-sm font-medium text-gray-900 truncate">
                   {user?.firstName || user?.emailAddresses[0]?.emailAddress}
                 </p>
-                <p className="text-xs text-green-400">Pro • Active</p>
+                <p className="text-xs text-gray-500">FlightChat Pro</p>
               </div>
             </div>
             <Link
               href="/settings"
-              className="p-2 hover:bg-gray-800 rounded-2xl transition-colors"
+              className="p-2 hover:bg-gray-50 rounded-lg transition-all cursor-pointer"
               title="Ustawienia"
             >
-              <Settings className="w-4 h-4 text-gray-400 hover:text-white" />
+              <Settings className="w-4 h-4 text-gray-400 hover:text-gray-600" />
             </Link>
           </div>
         </div>

@@ -57,9 +57,30 @@ export function ChatInput({
   const charCount = message.length
   const showCharCount = charCount > 200
 
+  const quickSuggestions = [
+    'Jakie hotele polecasz?',
+    'Co spakować?',
+    'Najlepszy czas na wyjazd?',
+  ]
+
   return (
-    <div className="border-t border-gray-200 bg-white p-6 sticky bottom-0 z-10 shadow-lg">
-      <div className="max-w-4xl mx-auto">
+    <div className="border-t border-gray-100 bg-white p-6 sticky bottom-0 z-10">
+      <div className="max-w-4xl mx-auto space-y-3">
+        {/* Quick suggestions pills */}
+        {!message && !disabled && (
+          <div className="flex flex-wrap gap-2">
+            {quickSuggestions.map((suggestion, idx) => (
+              <button
+                key={idx}
+                onClick={() => setMessage(suggestion)}
+                className="border border-gray-200 rounded-full px-4 py-1.5 text-sm text-gray-600 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 cursor-pointer"
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Input container */}
         <div className="flex gap-3 items-end">
           <div className="flex-1 relative">
@@ -75,10 +96,10 @@ export function ChatInput({
                 placeholder={placeholder}
                 disabled={disabled}
                 rows={1}
-                className={`w-full resize-none rounded-2xl border-2 bg-white px-5 py-3.5 pr-14 text-gray-900 placeholder:text-gray-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl ${isFocused ? 'border-orange-400 shadow-xl' : 'border-gray-300 hover:border-orange-300'}`}
+                className={`w-full resize-none rounded-xl border bg-white px-4 py-3 pr-14 text-gray-900 placeholder:text-gray-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 ${isFocused ? 'border-orange-500 ring-2 ring-orange-100' : 'border-gray-200 hover:border-gray-300'}`}
                 style={{ 
                   maxHeight: '200px',
-                  minHeight: '52px'
+                  minHeight: '48px'
                 }}
               />
               
@@ -86,56 +107,33 @@ export function ChatInput({
               <motion.button
                 onClick={handleSubmit}
                 disabled={disabled || !message.trim()}
-                className="absolute right-2 bottom-2 p-2.5 rounded-2xl bg-gradient-to-br from-orange-500 to-pink-500 text-white shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg transition-all duration-200"
+                className="absolute right-2 bottom-2 p-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 cursor-pointer"
                 whileHover={{ scale: disabled || !message.trim() ? 1 : 1.05 }}
                 whileTap={{ scale: disabled || !message.trim() ? 1 : 0.95 }}
                 title="Wyślij (Enter)"
               >
                 <Send className="w-4 h-4" />
               </motion.button>
-
-              {/* Character count */}
-              {showCharCount && (
-                <motion.div
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`absolute -bottom-6 right-0 text-xs ${
-                    charCount > 500 ? 'text-red-500' : 'text-gray-400'
-                  }`}
-                >
-                  {charCount} znaków
-                </motion.div>
-              )}
             </div>
           </div>
         </div>
         
         {/* Keyboard hints */}
-        <motion.div 
-          className="flex items-center justify-center gap-4 mt-3 text-xs text-gray-500"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
+        <div className="flex items-center justify-center gap-3 text-xs text-gray-400">
           <div className="flex items-center gap-1.5">
-            <kbd className="px-2 py-0.5 bg-gray-100 border border-gray-300 rounded text-xs font-mono">
+            <kbd className="px-2 py-0.5 bg-gray-50 border border-gray-200 rounded text-xs">
               Enter
             </kbd>
             <span>wyślij</span>
           </div>
-          <span className="text-gray-300">•</span>
+          <span>•</span>
           <div className="flex items-center gap-1.5">
-            <kbd className="px-2 py-0.5 bg-gray-100 border border-gray-300 rounded text-xs font-mono">
+            <kbd className="px-2 py-0.5 bg-gray-50 border border-gray-200 rounded text-xs">
               Shift + Enter
             </kbd>
             <span>nowa linia</span>
           </div>
-          <span className="text-gray-300 hidden sm:inline">•</span>
-          <div className="hidden sm:flex items-center gap-1.5">
-            <Sparkles className="w-3 h-3 text-orange-400" />
-            <span>Powered by Claude AI</span>
-          </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   )
